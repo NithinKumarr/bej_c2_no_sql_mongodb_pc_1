@@ -1,0 +1,83 @@
+movies> use address_db
+switched to db address_db
+address_db> db.createCollection("address")
+{ ok: 1 }
+address_db> db.address.insertOne({houseNo:10,streetName:"electronic city",city:"NewYork",zipCode:500345})
+{
+  acknowledged: true,
+address_db> db.address.insertMany([{houseNo:20,streetName:"electronic city",city:"Rochester",zipCode:30321},{houseNo:20,streetName:"electronic city",city:"Kingston",zipCode:8964},{houseNo:40,streetName:"electronic city",city:"London",zipCode:6789}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("63ac1c9de0f298ad435df0fd"),
+    '1': ObjectId("63ac1c9de0f298ad435df0fe"),
+    '2': ObjectId("63ac1c9ee0f298ad435df0ff")
+  }
+}
+address_db> db.address.find().pretty()
+[
+  {
+    _id: ObjectId("63ac1bbee0f298ad435df0fc"),
+    houseNo: 10,
+    streetName: 'electronic city',
+    city: 'NewYork',
+    zipCode: 500345
+  },
+  {
+    _id: ObjectId("63ac1c9de0f298ad435df0fd"),
+    houseNo: 20,
+    streetName: 'electronic city',
+    city: 'Rochester',
+    zipCode: 30321
+  },
+  {
+    _id: ObjectId("63ac1c9de0f298ad435df0fe"),
+    houseNo: 20,
+    streetName: 'electronic city',
+    city: 'Kingston',
+    zipCode: 8964
+  },
+  {
+    _id: ObjectId("63ac1c9ee0f298ad435df0ff"),
+    houseNo: 40,
+    streetName: 'electronic city',
+    city: 'London',
+    zipCode: 6789
+  }
+]
+address_db>
+
+address_db> db.address.find({city:"Rochester"}).pretty()
+[
+  {
+    _id: ObjectId("63ac1c9de0f298ad435df0fd"),
+    houseNo: 20,
+    streetName: 'electronic city',
+    city: 'Rochester',
+    zipCode: 30321
+  }
+]
+
+
+address_db> db.address.find({city:{$in:["Rochester","NewYork","Kingston"]}})
+[
+  {
+    _id: ObjectId("63ac1c9de0f298ad435df0fd"),
+    houseNo: 20,
+    streetName: 'electronic city',
+    city: 'Rochester',
+    zipCode: 30321
+  },
+  {
+    _id: ObjectId("63ac1c9de0f298ad435df0fe"),
+    houseNo: 20,
+    streetName: 'electronic city',
+    city: 'Kingston',
+    zipCode: 8964
+  }
+]
+address_db>
+
+address_db> db.address.deleteOne({city:"NewYork"})
+{ acknowledged: true, deletedCount: 1 }
+address_db>
